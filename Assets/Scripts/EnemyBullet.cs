@@ -16,13 +16,5 @@ public class EnemyBullet : MonoBehaviour {
         transform.Translate(0, speed * Time.deltaTime, 0);
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            Destroy(gameObject);
-            collision.gameObject.SetActive(false);
-        }
 
-    }
 }

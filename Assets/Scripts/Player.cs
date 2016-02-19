@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
     private const float HalfWidth = 0.55f;
+    private readonly Vector3 StartPosition = new Vector3(0,-3,0);
 
     [SerializeField]
     private float speed = 3;
@@ -12,6 +13,8 @@ public class Player : MonoBehaviour {
     private SpriteRenderer sr;
     [SerializeField]
     private GameObject bullet;
+    [SerializeField]
+    private GameObject explosion;
     [SerializeField]
     private float shootTime = 1f;
     private float time;
@@ -58,5 +61,25 @@ public class Player : MonoBehaviour {
             Instantiate(bullet, transform.position, Quaternion.identity);
             time = 0;
         }
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("EnemyBullet"))
+        {
+            Destroy(collision.gameObject);
+            gameObject.SetActive(false);
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Invoke("ResPawn", 1f);
+        }
+        else if (collision.CompareTag("Enemy"))
+        {
+            //game over
+        }
+
+    }
+    private void ResPawn()
+    {
+        transform.position = StartPosition;
+        gameObject.SetActive(true);
     }
 }
